@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <title>Flask Image Gallery</title>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+</head>
+<body>
+
+<div class="container mt-3">
+    <div class="row justify-content-center">
+        <div class="col-sm-6">
+            <form action="/uploads" method="post" enctype="multipart/form-data">
+              <div class="mb-3 mt-3">
+                <label for="file">Image:</label>
+                <input type="file" class="form-control" id="file" name="file">
+              </div>
+              <button type="submit" class="btn btn-dark">Submit</button>
+            </form>
+        </div>
+    </div>
+    <div class="row mt-4">
+    {% for image in files %}
+        <div class="col-sm-4">
+            <img src="{{ url_for('uploaded_file', filename = image.filename) }}" class="img img-thumbnail">
+            <a href="{{ url_for('download', file_id = image.id) }}" class="btn btn-sm btn-dark">Download</a>
+            <a href="{{ url_for('delete', file_id = image.id) }}" class="btn btn-sm btn-danger">Delete</a>
+        </div>
+    {% endfor %}
+    </div>
+</div>
+
+</body>
+</html>

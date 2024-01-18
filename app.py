@@ -1,6 +1,7 @@
 from flask import Flask, render_template, request, redirect, send_from_directory, url_for
 from flask_sqlalchemy import SQLAlchemy
 import os
+from uuid import uuid4
 
 app = Flask(__name__)
 app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///database.db'
@@ -26,7 +27,7 @@ def uploads():
         print('Upload Image')
         file = request.files['file']
         if file:
-            filename = file.filename
+            filename = file.filename.split('.')[-2] + str(uuid4()) + "." + file.filename.split('.')[-1]
             file.save(os.path.join(app.config['UPLOAD_FOLDER'], filename))
             new_file = File(filename= filename)
             db.session.add(new_file)
